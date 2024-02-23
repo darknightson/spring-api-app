@@ -1,0 +1,55 @@
+server:
+  port: 8080
+
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:h2:tcp://localhost/./spring-api-app
+    username: sa
+    password: 1
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true # 콘솔창에 sql 구문을 이쁘게 출력
+        show_sql: true # 콘솔창에 sql 출력
+        default_batch_fetch_size: 100 # in, not in 쿼리 시 in 절에 들어가는 파라미터 수 제한 oracle 1000, mysql 1000
+        open-in-view: false # 영속성 컨텍스트의 생존 범위를 트랜잭션 범위로 제한, osiv
+
+  devtools:
+    livereload:
+      enabled: false
+
+  servlet:
+    multipart:
+      max-file-size: 10MB # 파일 업로드 요청 시 하나의 파일 크기를 10MB로 제한
+      max-request-size: 100MB # 파일 업로드 요청 시 전체 파일 크기를 10MB로 제한
+#  main:
+
+#    allow-bean-definition-overriding: true # 빈 재정의 허용 feign client 재정의를 위해 필요( 이 부분은 나중에 확인해보자!)
+
+logging:
+  level:
+    com.app: debug # 로그 레벨 설정
+    org.hibernate.SQL: debug # hibernate sql 로그 출력
+    org.hibernate.type.descriptor.sql.BasicBinder: trace # hibernate sql 파라미터 로그 출력
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+
+kakao:
+  client:
+    id: 1fc3b03d73bf19cc62eb48218a56b817
+    secret: O76dOoolUAbAB9yHAVxydNNflFmYZqfz
+token:
+  secret: and0LXRva2VuLXNlY3JldA # 임의의 문자열
+  access-token-expiration-time: 900000 # 15분 1000(ms) x 60(s) x 15(m)
+  refresh-token-expiration-time: 1209600000 # 2주 1000(ms) x 60 (s) x 60(m) x 24(h) x 14(d)
